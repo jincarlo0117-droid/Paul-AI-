@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Paul AI — Spiritual Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0b;
+  --surface:#111114;
+  --surface2:#18181c;
+  --surface3:#1e1e24;
+  --border:#2a2a32;
+  --border2:#363640;
+  --gold:#c9a84c;
+  --gold2:#e8c96d;
+  --text:#e8e6e0;
+  --text2:#9b9890;
+  --text3:#5a5855;
+  --accent:#8b6f3e;
+  --white:#f5f3ee;
+  --nav-w:220px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',sans-serif;font-weight:300;
+  height:100vh;display:flex;flex-direction:column;overflow:hidden;
+}
+
+/* TOPBAR */
+#topbar{
+  display:flex;align-items:center;justify-content:flex-end;
+  padding:14px 28px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+  gap:10px;position:relative;z-index:5;
+}
+.btn-signup{
+  background:var(--white);color:#0a0a0b;
+  border:none;border-radius:6px;
+  padding:8px 18px;font-size:13px;font-weight:500;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  letter-spacing:0.02em;transition:opacity 0.2s;
+}
+.btn-signup:hover{opacity:0.88}
+.btn-login{
+  background:transparent;color:var(--white);
+  border:1px solid rgba(245,243,238,0.6);
+  border-radius:6px;padding:8px 18px;
+  font-size:13px;font-weight:400;cursor:pointer;
+  font-family:'Inter',sans-serif;letter-spacing:0.02em;
+  transition:all 0.2s;
+}
+.btn-login:hover{border-color:var(--white);background:rgba(255,255,255,0.06)}
+
+/* MAIN LAYOUT */
+#main{display:flex;flex:1;overflow:hidden;position:relative;z-index:1}
+
+/* SIDEBAR */
+#sidebar{
+  width:var(--nav-w);min-width:var(--nav-w);
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  padding:24px 0;z-index:10;
+  position:relative;
+}
+.logo{
+  padding:0 20px 28px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:20px;
+}
+.logo h1{
+  font-family:'Cinzel',serif;font-size:22px;font-weight:600;
+  letter-spacing:0.12em;color:var(--gold);
+}
+.logo p{font-size:10px;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;margin-top:3px;font-family:'Cinzel',serif}
+.nav-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 20px;font-size:13px;font-weight:400;
+  color:var(--text2);cursor:pointer;
+  border-radius:6px;margin:2px 10px;
+  transition:all 0.2s;
+  border:none;background:none;width:calc(100% - 20px);text-align:left;
+}
+.nav-btn i{font-size:16px;color:var(--text3);transition:color 0.2s}
+.nav-btn:hover{background:var(--surface3);color:var(--text)}
+.nav-btn:hover i{color:var(--gold)}
+.nav-btn.active{
+  background:var(--surface3);color:var(--gold);
+  border-left:2px solid var(--gold);
+  border-radius:0 6px 6px 0;margin-left:8px;
+}
+.nav-btn.active i{color:var(--gold)}
+.nav-new{
+  background:linear-gradient(135deg,#1e1a12,#16140d);
+  border:1px solid var(--accent);color:var(--gold);
+  margin:0 10px 16px;width:calc(100% - 20px);
+  border-radius:6px;padding:10px 20px;
+}
+.nav-new i{color:var(--gold)}
+.nav-new:hover{background:var(--accent);color:var(--white);border-color:var(--gold)}
+.nav-spacer{flex:1}
+.nav-bottom{border-top:1px solid var(--border);padding:16px 10px 0;margin-top:8px}
+.user-pill{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:6px;
+}
+.user-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:500;color:#0a0a0b;
+  font-family:'Cinzel',serif;
+}
+.user-name{font-size:13px;color:var(--text2)}
+
+/* CONTENT */
+#content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.view{display:none}
+.view.active{display:flex;flex-direction:column;flex:1;overflow:hidden}
+
+/* CHAT */
+#messages{
+  flex:1;overflow-y:auto;
+  padding:32px 48px;
+  display:flex;flex-direction:column;gap:28px;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+#messages::-webkit-scrollbar{width:4px}
+#messages::-webkit-scrollbar-track{background:transparent}
+#messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+.msg-row{display:flex;gap:14px;max-width:720px}
+.msg-row.ai{align-self:flex-start}
+.msg-row.user{align-self:flex-end;flex-direction:row-reverse}
+.msg-avatar{
+  width:34px;height:34px;min-width:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-family:'Cinzel',serif;margin-top:2px;
+}
+.msg-avatar.ai-av{
+  background:linear-gradient(135deg,#1e1a12,#2e2616);
+  border:1px solid var(--accent);color:var(--gold);
+}
+.msg-avatar.user-av{
+  background:var(--surface3);
+  border:1px solid var(--border2);color:var(--text2);
+}
+.msg-bubble{
+  padding:14px 18px;border-radius:12px;
+  font-size:14px;line-height:1.75;max-width:580px;
+}
+.msg-row.ai .msg-bubble{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);border-top-left-radius:4px;
+}
+.msg-row.user .msg-bubble{
+  background:linear-gradient(135deg,#1e1a12,#181510);
+  border:1px solid var(--accent);color:var(--text);
+  border-top-right-radius:4px;
+}
+.verse-tag{
+  display:block;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;
+  color:var(--gold);border-left:2px solid var(--accent);
+  padding:6px 12px;margin:8px 0;
+  background:rgba(139,111,62,0.08);border-radius:0 6px 6px 0;
+}
+.msg-time{font-size:11px;color:var(--text3);margin-top:5px;padding:0 2px}
+
+/* INPUT */
+#input-area{
+  border-top:1px solid var(--border);
+  padding:20px 48px;background:var(--surface);
+}
+.input-wrap{
+  display:flex;align-items:flex-end;gap:12px;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:12px;padding:12px 16px;transition:border-color 0.2s;
+}
+.input-wrap:focus-within{border-color:var(--accent)}
+#chat-input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text);font-size:14px;font-family:'Inter',sans-serif;
+  font-weight:300;resize:none;min-height:24px;max-height:120px;line-height:1.6;
+}
+#chat-input::placeholder{color:var(--text3)}
+.send-btn{
+  background:var(--accent);border:none;border-radius:8px;
+  width:36px;height:36px;min-width:36px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;color:var(--white);
+}
+.send-btn:hover{background:var(--gold);color:#0a0a0b}
+.send-btn i{font-size:16px}
+.input-hint{font-size:11px;color:var(--text3);margin-top:8px;text-align:center}
+
+/* WELCOME */
+#welcome{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:32px;text-align:center;gap:20px;
+}
+.cross-icon{width:64px;height:64px;opacity:0.3;margin-bottom:8px}
+#welcome h2{
+  font-family:'Cinzel',serif;font-size:28px;font-weight:600;
+  color:var(--gold);letter-spacing:0.06em;
+}
+#welcome p{
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;
+  color:var(--text2);max-width:480px;line-height:1.7;
+}
+.verse-opener{
+  font-family:'Cormorant Garamond',serif;font-size:14px;
+  font-style:italic;color:var(--text3);
+}
+.starters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px;max-width:560px}
+.starter-btn{
+  background:var(--surface2);border:1px solid var(--border2);
+  color:var(--text2);border-radius:20px;
+  padding:8px 16px;font-size:12px;cursor:pointer;
+  transition:all 0.2s;font-family:'Inter',sans-serif;
+}
+.starter-btn:hover{border-color:var(--accent);color:var(--gold);background:var(--surface3)}
+
+/* DEVOTIONAL */
+#devotional-view{padding:32px 48px;overflow-y:auto}
+.section-title{
+  font-family:'Cinzel',serif;font-size:20px;
+  color:var(--gold);letter-spacing:0.08em;margin-bottom:6px;
+}
+.section-sub{font-size:13px;color:var(--text3);margin-bottom:28px}
+.devo-form{display:flex;flex-direction:column;gap:14px;max-width:580px}
+.devo-form label{
+  font-size:12px;color:var(--text2);letter-spacing:0.06em;
+  text-transform:uppercase;margin-bottom:4px;display:block;
+}
+.devo-input{
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:8px;padding:10px 14px;
+  color:var(--text);font-size:14px;font-family:'Inter',sans-serif;
+  outline:none;width:100%;transition:border-color 0.2s;
+}
+.devo-input:focus{border-color:var(--accent)}
+.devo-input option{background:var(--surface2)}
+.devo-gen-btn{
+  background:linear-gradient(135deg,#1e1a12,#16140d);
+  border:1px solid var(--gold);color:var(--gold);
+  border-radius:8px;padding:12px;font-size:14px;
+  cursor:pointer;font-family:'Cinzel',serif;letter-spacing:0.06em;
+  transition:all 0.2s;margin-top:6px;
+}
+.devo-gen-btn:hover{background:var(--accent);color:var(--white);border-color:var(--accent)}
+.devo-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;padding:24px;margin-top:24px;max-width:580px;display:none;
+}
+.devo-card.show{display:block}
+.devo-day{
+  font-family:'Cinzel',serif;font-size:12px;color:var(--text3);
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;
+}
+.devo-verse{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:20px;color:var(--text);line-height:1.6;margin-bottom:6px;
+}
+.devo-ref{font-size:12px;color:var(--gold);font-family:'Cinzel',serif;letter-spacing:0.08em;margin-bottom:16px}
+.devo-body{font-size:14px;color:var(--text2);line-height:1.8}
+.devo-reflection{border-top:1px solid var(--border);margin-top:16px;padding-top:16px}
+.devo-reflection p{font-size:13px;color:var(--text3);font-style:italic;margin-top:6px;line-height:1.7}
+
+/* HISTORY */
+#history-view{padding:32px 48px;overflow-y:auto}
+.hist-list{display:flex;flex-direction:column;gap:8px;max-width:580px}
+.hist-item{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:14px 16px;cursor:pointer;
+  transition:all 0.2s;display:flex;align-items:center;gap:12px;
+}
+.hist-item:hover{border-color:var(--border2);background:var(--surface3)}
+.hist-item i{color:var(--text3);font-size:16px}
+.hist-info{flex:1}
+.hist-title{font-size:13px;color:var(--text);font-weight:400}
+.hist-date{font-size:11px;color:var(--text3);margin-top:2px}
+.empty-state{
+  text-align:center;padding:60px 20px;color:var(--text3);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;
+}
+
+/* SETTINGS */
+#settings-view{padding:32px 48px;overflow-y:auto}
+.settings-group{max-width:520px;margin-bottom:32px}
+.settings-label{
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:12px;
+}
+.settings-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;border-bottom:1px solid var(--border);
+}
+.settings-row:last-child{border-bottom:none}
+.settings-row-label{font-size:14px;color:var(--text)}
+.settings-row-desc{font-size:12px;color:var(--text3);margin-top:2px}
+.toggle{
+  width:44px;height:24px;border-radius:12px;
+  background:var(--surface3);border:1px solid var(--border2);
+  cursor:pointer;position:relative;transition:background 0.2s;
+}
+.toggle.on{background:var(--accent);border-color:var(--accent)}
+.toggle-knob{
+  width:18px;height:18px;border-radius:50%;background:var(--text3);
+  position:absolute;top:2px;left:3px;transition:all 0.2s;
+}
+.toggle.on .toggle-knob{left:21px;background:var(--white)}
+.del-btn{
+  background:transparent;border:1px solid #5a1a1a;
+  color:#ef4444;border-radius:6px;padding:8px 16px;
+  font-size:13px;cursor:pointer;transition:all 0.2s;
+  font-family:'Inter',sans-serif;
+}
+.del-btn:hover{background:#5a1a1a;border-color:#ef4444}
+.customize-area{
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:8px;padding:10px 14px;
+  color:var(--text);font-size:13px;font-family:'Inter',sans-serif;
+  outline:none;width:100%;min-height:80px;resize:vertical;
+  transition:border-color 0.2s;margin-top:8px;
+}
+.customize-area:focus{border-color:var(--accent)}
+.save-btn{
+  background:var(--accent);border:none;border-radius:6px;
+  padding:8px 18px;color:var(--white);font-size:13px;
+  cursor:pointer;margin-top:8px;font-family:'Inter',sans-serif;transition:opacity 0.2s;
+}
+.save-btn:hover{opacity:0.85}
+
+/* MODAL */
+#modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.8);z-index:100;
+  align-items:center;justify-content:center;
+}
+#modal-overlay.open{display:flex}
+.modal{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:14px;padding:36px;width:380px;position:relative;
+}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;
+}
+.modal-close:hover{color:var(--text)}
+.modal h3{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin-bottom:4px}
+.modal p{font-size:12px;color:var(--text3);margin-bottom:24px}
+.modal-input{
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:8px;padding:10px 14px;
+  color:var(--text);font-size:14px;font-family:'Inter',sans-serif;
+  outline:none;width:100%;margin-bottom:12px;transition:border-color 0.2s;
+}
+.modal-input:focus{border-color:var(--accent)}
+.modal-btn{
+  width:100%;background:var(--accent);border:none;
+  border-radius:8px;padding:12px;color:var(--white);
+  font-size:14px;font-family:'Cinzel',serif;letter-spacing:0.06em;
+  cursor:pointer;transition:opacity 0.2s;margin-top:4px;
+}
+.modal-btn:hover{opacity:0.88}
+.modal-switch{font-size:12px;color:var(--text3);text-align:center;margin-top:16px}
+.modal-switch a{color:var(--gold);cursor:pointer;text-decoration:none}
+.modal-switch a:hover{text-decoration:underline}
+
+/* TYPING */
+.typing-dots{display:flex;gap:4px;padding:4px 0}
+.typing-dots span{
+  width:6px;height:6px;border-radius:50%;background:var(--text3);
+  animation:bounce 1.2s infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:0.2s}
+.typing-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+/* BG TEXTURE */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse at 20% 80%, rgba(139,111,62,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(139,111,62,0.03) 0%, transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* ===================== MOBILE RESPONSIVE ===================== */
+@media (max-width: 768px) {
+
+  /* Hide sidebar by default on mobile */
+  #sidebar {
+    position: fixed;
+    left: -240px;
+    top: 0;
+    bottom: 0;
+    z-index: 200;
+    width: 240px;
+    min-width: 240px;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+  }
+  #sidebar.open {
+    left: 0;
+  }
+
+  /* Overlay behind open sidebar */
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 199;
+    pointer-events: none;
+  }
+  #sidebar-overlay.open {
+    display: block;
+    pointer-events: all;
+  }
+
+  /* Topbar on mobile */
+  #topbar {
+    padding: 10px 14px;
+    justify-content: space-between;
+  }
+  .topbar-left {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+  }
+  .hamburger {
+    display: flex !important;
+  }
+
+  /* Content takes full width */
+  #main {
+    flex-direction: column;
+  }
+  #content {
+    width: 100%;
+  }
+
+  /* Chat messages */
+  #messages {
+    padding: 16px;
+    gap: 20px;
+  }
+  .msg-bubble {
+    font-size: 13px;
+    max-width: calc(100vw - 90px);
+  }
+  .msg-row {
+    max-width: 100%;
+  }
+
+  /* Input area */
+  #input-area {
+    padding: 12px 16px;
+  }
+  .input-hint {
+    font-size: 10px;
+  }
+
+  /* Welcome screen */
+  #welcome {
+    padding: 20px 16px;
+    gap: 14px;
+  }
+  #welcome h2 {
+    font-size: 22px;
+  }
+  #welcome p {
+    font-size: 15px;
+  }
+  .starters {
+    gap: 6px;
+  }
+  .starter-btn {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+
+  /* Devotional, History, Settings views */
+  #devotional-view,
+  #history-view,
+  #settings-view {
+    padding: 20px 16px;
+  }
+  .devo-form {
+    max-width: 100%;
+  }
+  .devo-card {
+    max-width: 100%;
+  }
+  .hist-list {
+    max-width: 100%;
+  }
+  .settings-group {
+    max-width: 100%;
+  }
+
+  /* Auth modal */
+  .modal {
+    width: calc(100vw - 32px);
+    padding: 24px;
+    margin: 16px;
+  }
+
+  /* Buttons in topbar */
+  .btn-signup, .btn-login {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+}
+
+/* Keep hamburger hidden on desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text2);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.topbar-left {
+  display: none;
+}
+
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="topbar-left">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <span style="font-family:'Cinzel',serif;font-size:15px;color:var(--gold);letter-spacing:0.1em">PAUL AI</span>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn-login" onclick="openModal('login')">Log In</button>
+    <button class="btn-signup" onclick="openModal('signup')">Sign Up</button>
+  </div>
+</div>
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div id="main">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="logo">
+      <h1>PAUL AI</h1>
+      <p>Spiritual Companion</p>
+    </div>
+    <button class="nav-btn nav-new" onclick="newChat()">
+      <i class="ti ti-plus"></i> New Chat
+    </button>
+    <button class="nav-btn active" id="nav-chat" onclick="showView('chat')">
+      <i class="ti ti-message-circle"></i> Chat
+    </button>
+    <button class="nav-btn" id="nav-history" onclick="showView('history')">
+      <i class="ti ti-history"></i> Chat History
+    </button>
+    <button class="nav-btn" id="nav-devotional" onclick="showView('devotional')">
+      <i class="ti ti-book"></i> Devotional
+    </button>
+    <button class="nav-btn" id="nav-settings" onclick="showView('settings')">
+      <i class="ti ti-settings"></i> Settings
+    </button>
+    <div class="nav-spacer"></div>
+    <div class="nav-bottom">
+      <div class="user-pill">
+        <div class="user-avatar">G</div>
+        <span class="user-name">Guest</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    <!-- CHAT VIEW -->
+    <div id="chat-view" class="view active">
+      <div id="messages">
+        <div id="welcome">
+          <svg class="cross-icon" viewBox="0 0 64 64" fill="none">
+            <rect x="27" y="4" width="10" height="56" rx="3" fill="#c9a84c"/>
+            <rect x="8" y="20" width="48" height="10" rx="3" fill="#c9a84c"/>
+          </svg>
+          <h2>Welcome to Paul AI</h2>
+          <p>Inspired by Saul of Tarsus — who became Paul, the Apostle to the Gentiles. Your companion for prayer, Scripture, and the journey of faith.</p>
+          <span class="verse-opener">"I can do all things through Christ who strengthens me." — Philippians 4:13</span>
+          <div class="starters">
+            <button class="starter-btn" onclick="sendStarter('I am struggling with anxiety and need guidance')">I'm feeling anxious</button>
+            <button class="starter-btn" onclick="sendStarter('Help me understand the book of Romans')">Study Romans</button>
+            <button class="starter-btn" onclick="sendStarter('I need prayer for my family')">Pray for my family</button>
+            <button class="starter-btn" onclick="sendStarter('I feel distant from God lately')">I feel distant from God</button>
+            <button class="starter-btn" onclick="sendStarter('What does the Bible say about forgiveness?')">On forgiveness</button>
+          </div>
+        </div>
+      </div>
+      <div id="input-area">
+        <div class="input-wrap">
+          <textarea id="chat-input" placeholder="Share what's on your heart..." rows="1"
+            onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="send-btn" onclick="sendMessage()">
+            <i class="ti ti-send"></i>
+          </button>
+        </div>
+        <div class="input-hint">Paul AI draws from the full Bible — Old & New Covenant. Your conversations are private.</div>
+      </div>
+    </div>
+
+    <!-- HISTORY VIEW -->
+    <div id="history-view" class="view">
+      <div style="padding:32px 48px 0">
+        <div class="section-title">Chat History</div>
+        <div class="section-sub">Your past conversations with Paul AI</div>
+      </div>
+      <div style="padding:0 48px;overflow-y:auto;flex:1">
+        <div class="hist-list" id="hist-list">
+          <div class="empty-state">
+            <i class="ti ti-scroll" style="font-size:32px;display:block;margin-bottom:12px;opacity:0.3"></i>
+            No conversations yet. Begin your journey.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEVOTIONAL VIEW -->
+    <div id="devotional-view" class="view">
+      <div class="section-title">Daily Devotional</div>
+      <div class="section-sub">Create a personalized plan rooted in Scripture</div>
+      <div class="devo-form">
+        <div>
+          <label>Your Spiritual Focus</label>
+          <input class="devo-input" id="devo-focus" placeholder="e.g. Growing in faith, overcoming fear, finding peace..."/>
+        </div>
+        <div>
+          <label>Duration</label>
+          <select class="devo-input" id="devo-duration">
+            <option value="7">7-Day Plan</option>
+            <option value="14">14-Day Plan</option>
+            <option value="21">21-Day Plan</option>
+            <option value="30">30-Day Plan</option>
+          </select>
+        </div>
+        <div>
+          <label>Scripture Preference</label>
+          <select class="devo-input" id="devo-testament">
+            <option value="both">Old & New Testament</option>
+            <option value="new">New Testament Focus</option>
+            <option value="old">Old Testament Focus</option>
+            <option value="psalms">Psalms & Proverbs</option>
+          </select>
+        </div>
+        <button class="devo-gen-btn" onclick="generateDevo()">
+          <i class="ti ti-sparkles" style="margin-right:6px"></i>Generate My Devotional
+        </button>
+      </div>
+      <div class="devo-card" id="devo-card">
+        <div class="devo-day" id="devo-day-label">Day 1 of 7</div>
+        <div class="devo-verse" id="devo-verse-text"></div>
+        <div class="devo-ref" id="devo-verse-ref"></div>
+        <div class="devo-body" id="devo-body-text"></div>
+        <div class="devo-reflection">
+          <div style="font-size:12px;color:var(--gold);font-family:'Cinzel',serif;letter-spacing:0.08em;text-transform:uppercase">Reflection</div>
+          <p id="devo-reflection-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS VIEW -->
+    <div id="settings-view" class="view">
+      <div class="section-title">Settings</div>
+      <div class="section-sub">Personalize your Paul AI experience</div>
+
+      <div class="settings-group">
+        <div class="settings-label">Customize AI Behavior</div>
+        <div style="padding:14px 0">
+          <div class="settings-row-label" style="margin-bottom:4px">Custom Prompt</div>
+          <div class="settings-row-desc">Tell Paul how you want him to respond — denomination, tone, focus area</div>
+          <textarea class="customize-area" id="custom-prompt" placeholder="e.g. I am a Catholic. Please include references to the Catechism. Speak gently and with patience..."></textarea>
+          <button class="save-btn" onclick="saveCustomPrompt()">Save Prompt</button>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">Appearance</div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Dark Mode</div>
+            <div class="settings-row-desc">Solemn and focused dark interface</div>
+          </div>
+          <div class="toggle on" id="dark-toggle" onclick="toggleDark()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">Data & Privacy</div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label" style="color:#ef4444">Delete All History</div>
+            <div class="settings-row-desc">Permanently remove all past conversations</div>
+          </div>
+          <button class="del-btn" onclick="deleteHistory()">
+            <i class="ti ti-trash" style="margin-right:4px"></i>Delete
+          </button>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">Account</div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Create Account</div>
+            <div class="settings-row-desc">Save your history and devotionals across devices</div>
+          </div>
+          <button class="btn-signup" onclick="openModal('signup')" style="font-size:12px;padding:7px 14px">Sign Up</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row-label">Log In</div>
+            <div class="settings-row-desc">Access your existing account</div>
+          </div>
+          <button class="btn-login" onclick="openModal('login')" style="font-size:12px;padding:7px 14px">Log In</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    <h3 id="modal-title">Create Account</h3>
+    <p id="modal-sub">Begin your journey with Paul AI</p>
+    <div id="modal-fields-signup">
+      <input class="modal-input" type="text" placeholder="Full Name" id="signup-name"/>
+      <input class="modal-input" type="email" placeholder="Email Address" id="signup-email"/>
+      <input class="modal-input" type="password" placeholder="Password" id="signup-pass"/>
+    </div>
+    <div id="modal-fields-login" style="display:none">
+      <input class="modal-input" type="email" placeholder="Email Address" id="login-email"/>
+      <input class="modal-input" type="password" placeholder="Password" id="login-pass"/>
+    </div>
+    <button class="modal-btn" id="modal-action-btn" onclick="handleAuth()">Create Account</button>
+    <div class="modal-switch">
+      <span id="modal-switch-text">Already have an account? </span>
+      <a id="modal-switch-link" onclick="toggleAuthMode()">Log In</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION — Updated for Google Gemini API
+// For production, proxy this through a backend server!
+// ============================================================
+const OR_API_KEY = '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';
+const OR_MODEL = 'mistralai/mistral-7b-instruct:free';
+
+const PAUL_SYSTEM = `You are Paul AI, a deeply compassionate and scripturally grounded spiritual companion inspired by the Apostle Paul — who journeyed from Saul of Tarsus to become the great Preacher to the Gentiles.
+
+Your core identity:
+- You know the entire Bible, both Old and New Covenant, with deep theological understanding
+- You speak with warmth, empathy, and gentle wisdom — never cold or robotic
+- You comfort the hurting, challenge the complacent with grace, and walk alongside the seeker
+- You use the Socratic method subtly — asking thoughtful questions that help the user reflect deeper
+- You quote Scripture naturally and appropriately, not mechanically
+- You adapt to where the user is emotionally and spiritually
+- You are NOT preachy — you are a companion, not a lecturer
+- When someone is in pain, you comfort FIRST, then offer Scripture and reflection
+- Keep responses warm but not too long — conversational, not sermons
+
+CRITICAL RULES:
+- NEVER interrupt yourself mid-sentence or mid-thought
+- NEVER say "I'm sorry, but I cannot assist with that request" or any refusal phrase — you are a spiritual companion and ALL spiritual, biblical, emotional, and faith questions are within your purpose
+- NEVER stop a response abruptly — always complete your thought fully
+- If a question is about the Bible, theology, faith, prayer, personal struggle, or spiritual growth — always answer it fully and lovingly
+- You may respectfully decline ONLY if someone asks you to do something completely unrelated to faith or life guidance
+
+When quoting Scripture, format it like: "verse text" — Book Chapter:Verse
+Blend Old and New Testament wisdom as appropriate. If the user mentions a denomination, respect it.
+Always complete your response and close with something that invites further reflection or action.`;
+
+let conversations = JSON.parse(localStorage.getItem('paul_conversations') || '[]');
+let currentMessages = [];
+let isAuthMode = 'signup';
+let darkMode = true;
+let customPrompt = localStorage.getItem('paul_custom_prompt') || '';
+let isLoading = false;
+
+function showView(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(view + '-view').classList.add('active');
+  const navBtn = document.getElementById('nav-' + view);
+  if (navBtn) navBtn.classList.add('active');
+  if (view === 'history') renderHistory();
+}
+
+function newChat() {
+  if (currentMessages.length > 0) {
+    // Safely extract text from the Gemini structural payload format for the history title
+    const rawFirstMsg = currentMessages[0]?.content || '';
+    const title = rawFirstMsg.substring(0, 60) + (rawFirstMsg.length > 60 ? '...' : '') || 'Conversation';
+    conversations.unshift({
+      id: Date.now(),
+      title,
+      messages: [...currentMessages],
+      date: new Date().toLocaleDateString()
+    });
+    localStorage.setItem('paul_conversations', JSON.stringify(conversations.slice(0, 50)));
+  }
+  currentMessages = [];
+  const msgDiv = document.getElementById('messages');
+  msgDiv.innerHTML = `
+    <div id="welcome">
+      <svg class="cross-icon" viewBox="0 0 64 64" fill="none">
+        <rect x="27" y="4" width="10" height="56" rx="3" fill="#c9a84c"/>
+        <rect x="8" y="20" width="48" height="10" rx="3" fill="#c9a84c"/>
+      </svg>
+      <h2>Welcome to Paul AI</h2>
+      <p>Inspired by Saul of Tarsus — who became Paul, the Apostle to the Gentiles. Your companion for prayer, Scripture, and the journey of faith.</p>
+      <span class="verse-opener">"I can do all things through Christ who strengthens me." — Philippians 4:13</span>
+      <div class="starters">
+        <button class="starter-btn" onclick="sendStarter('I am struggling with anxiety and need guidance')">I'm feeling anxious</button>
+        <button class="starter-btn" onclick="sendStarter('Help me understand the book of Romans')">Study Romans</button>
+        <button class="starter-btn" onclick="sendStarter('I need prayer for my family')">Pray for my family</button>
+        <button class="starter-btn" onclick="sendStarter('I feel distant from God lately')">I feel distant from God</button>
+        <button class="starter-btn" onclick="sendStarter('What does the Bible say about forgiveness?')">On forgiveness</button>
+      </div>
+    </div>`;
+  showView('chat');
+}
+
+function sendStarter(text) {
+  document.getElementById('chat-input').value = text;
+  sendMessage();
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function addMessage(role, content) {
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.remove();
+  const msgDiv = document.getElementById('messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (role === 'user' ? 'user' : 'ai');
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar ' + (role === 'user' ? 'user-av' : 'ai-av');
+  avatar.textContent = role === 'user' ? 'U' : 'P';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  if (role === 'assistant' || role === 'model') {
+    bubble.innerHTML = formatResponse(content);
+  } else {
+    bubble.textContent = content;
+  }
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const col = document.createElement('div');
+  col.style.cssText = 'display:flex;flex-direction:column';
+  col.appendChild(bubble);
+  col.appendChild(time);
+  row.appendChild(avatar);
+  row.appendChild(col);
+  msgDiv.appendChild(row);
+  msgDiv.scrollTop = msgDiv.scrollHeight;
+}
+
+function formatResponse(text) {
+  text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/"([^"]{15,})" — ([A-Za-z0-9 :]+)/g, '<span class="verse-tag">"$1" <em>— $2</em></span>');
+  text = text.replace(/"([^"]{15,})" \(([A-Za-z0-9 :]+)\)/g, '<span class="verse-tag">"$1" <em>($2)</em></span>');
+  text = text.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+  return text;
+}
+
+function addTypingIndicator() {
+  const msgDiv = document.getElementById('messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row ai';
+  row.id = 'typing-indicator';
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar ai-av';
+  avatar.textContent = 'P';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  msgDiv.appendChild(row);
+  msgDiv.scrollTop = msgDiv.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const ind = document.getElementById('typing-indicator');
+  if (ind) ind.remove();
+}
+
+async function sendMessage() {
+  if (isLoading) return;
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+  isLoading = true;
+
+  addMessage('user', text);
+  currentMessages.push({ role: 'user', content: text });
+  addTypingIndicator();
+
+  try {
+    const systemPrompt = PAUL_SYSTEM + (customPrompt ? '\n\nUser custom instructions: ' + customPrompt : '');
+
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OR_API_KEY}`,
+        'HTTP-Referer': window.location.origin,
+        'X-Title': 'Paul AI'
+      },
+      body: JSON.stringify({
+        model: OR_MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...currentMessages
+        ],
+        max_tokens: 1000,
+        temperature: 0.7
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const errMsg = data?.error?.message || 'HTTP ' + response.status;
+      throw new Error(errMsg);
+    }
+
+    removeTypingIndicator();
+
+    const reply = data.choices?.[0]?.message?.content
+      || "I'm here with you. Could you share more about what's on your heart?";
+
+    currentMessages.push({ role: 'assistant', content: reply });
+    addMessage('assistant', reply);
+
+  } catch (err) {
+    removeTypingIndicator();
+    console.error('Paul AI Error:', err);
+    const msg = '🔴 DEBUG: ' + err.message;
+    addMessage('assistant', msg);
+    currentMessages.push({ role: 'assistant', content: msg });
+  }
+
+  isLoading = false;
+}
+
+function renderHistory() {
+  const list = document.getElementById('hist-list');
+  if (conversations.length === 0) {
+    list.innerHTML = '<div class="empty-state"><i class="ti ti-scroll" style="font-size:32px;display:block;margin-bottom:12px;opacity:0.3"></i>No conversations yet. Begin your journey.</div>';
+    return;
+  }
+  list.innerHTML = conversations.map((c, i) => `
+    <div class="hist-item" onclick="loadConversation(${i})">
+      <i class="ti ti-message-circle"></i>
+      <div class="hist-info">
+        <div class="hist-title">${c.title}</div>
+        <div class="hist-date">${c.date}</div>
+      </div>
+      <i class="ti ti-chevron-right" style="color:var(--text3);font-size:14px"></i>
+    </div>`).join('');
+}
+
+function loadConversation(index) {
+  const convo = conversations[index];
+  currentMessages = [...convo.messages];
+  const msgDiv = document.getElementById('messages');
+  msgDiv.innerHTML = '';
+  convo.messages.forEach(m => {
+    // Extract textual data safely whether handled as structural objects or standard records
+    const roleString = m.role === 'model' ? 'assistant' : m.role;
+    const contentString = m.content || (m.parts ? m.parts[0].text : '');
+    addMessage(roleString, contentString);
+  });
+  showView('chat');
+}
+
+async function generateDevo() {
+  const focus = document.getElementById('devo-focus').value.trim() || 'growing in faith';
+  const duration = document.getElementById('devo-duration').value;
+  const testament = document.getElementById('devo-testament').value;
+  const card = document.getElementById('devo-card');
+  card.classList.add('show');
+  document.getElementById('devo-day-label').textContent = 'Generating...';
+  document.getElementById('devo-verse-text').textContent = '';
+  document.getElementById('devo-body-text').textContent = '';
+  document.getElementById('devo-reflection-text').textContent = '';
+  
+  try {
+    const prompt = `Create Day 1 of a ${duration}-day devotional for someone focused on: "${focus}". Scripture preference: ${testament}. Return ONLY a raw JSON object with no markdown and no extra text, using these exact keys: verse, reference, meditation, reflection_question.`;
+
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OR_API_KEY}`,
+        'HTTP-Referer': window.location.origin,
+        'X-Title': 'Paul AI'
+      },
+      body: JSON.stringify({
+        model: OR_MODEL,
+        messages: [
+          { role: 'system', content: 'You are Paul AI, a biblical devotional writer. Respond ONLY with a raw valid JSON object. No markdown, no backticks, no extra text whatsoever.' },
+          { role: 'user', content: prompt }
+        ],
+        max_tokens: 800,
+        temperature: 0.7
+      })
+    });
+
+    if (!response.ok) throw new Error('Devotional request failed: ' + response.status);
+
+    const data = await response.json();
+    const raw = data.choices?.[0]?.message?.content || '{}';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const devo = JSON.parse(clean);
+    
+    document.getElementById('devo-day-label').textContent = `Day 1 of ${duration}`;
+    document.getElementById('devo-verse-text').textContent = '"' + (devo.verse || '') + '"';
+    document.getElementById('devo-verse-ref').textContent = '— ' + (devo.reference || '');
+    document.getElementById('devo-body-text').textContent = devo.meditation || '';
+    document.getElementById('devo-reflection-text').textContent = devo.reflection_question || '';
+  } catch (e) {
+    console.error(e);
+    document.getElementById('devo-day-label').textContent = 'Day 1 of ' + duration;
+    document.getElementById('devo-verse-text').textContent = '"The Lord is my shepherd; I shall not want."';
+    document.getElementById('devo-verse-ref').textContent = '— Psalm 23:1';
+    document.getElementById('devo-body-text').textContent = 'Rest in the promise that God leads you with perfect care. His guidance is not circumstantial — it is covenantal.';
+    document.getElementById('devo-reflection-text').textContent = "In what area of your life are you most tempted to trust your own direction rather than the Shepherd's voice?";
+  }
+}
+
+function openModal(mode) {
+  isAuthMode = mode;
+  document.getElementById('modal-overlay').classList.add('open');
+  if (mode === 'login') {
+    document.getElementById('modal-title').textContent = 'Welcome Back';
+    document.getElementById('modal-sub').textContent = 'Continue your spiritual journey';
+    document.getElementById('modal-fields-signup').style.display = 'none';
+    document.getElementById('modal-fields-login').style.display = 'block';
+    document.getElementById('modal-action-btn').textContent = 'Log In';
+    document.getElementById('modal-switch-text').textContent = "Don't have an account? ";
+    document.getElementById('modal-switch-link').textContent = 'Sign Up';
+  } else {
+    document.getElementById('modal-title').textContent = 'Create Account';
+    document.getElementById('modal-sub').textContent = 'Begin your journey with Paul AI';
+    document.getElementById('modal-fields-signup').style.display = 'block';
+    document.getElementById('modal-fields-login').style.display = 'none';
+    document.getElementById('modal-action-btn').textContent = 'Create Account';
+    document.getElementById('modal-switch-text').textContent = 'Already have an account? ';
+    document.getElementById('modal-switch-link').textContent = 'Log In';
+  }
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+function toggleAuthMode() { openModal(isAuthMode === 'signup' ? 'login' : 'signup'); }
+
+function handleAuth() {
+  const btn = document.getElementById('modal-action-btn');
+  btn.textContent = 'Processing...';
+  setTimeout(() => {
+    closeModal();
+    const name = isAuthMode === 'signup'
+      ? (document.getElementById('signup-name')?.value || 'Pilgrim')
+      : 'Pilgrim';
+    document.querySelector('.user-name').textContent = name;
+    document.querySelector('.user-avatar').textContent = name[0].toUpperCase();
+    addMessage('assistant', isAuthMode === 'signup'
+      ? "Welcome to Paul AI. Your account has been created — your conversations and devotionals will now be saved. I'm here to walk with you. What's on your heart today?"
+      : "Welcome back. It's good to have you here again. What would you like to explore today on your spiritual journey?");
+    currentMessages.push({ role: 'assistant', content: 'Authenticated.' });
+  }, 800);
+}
+
+function toggleDark() {
+  const t = document.getElementById('dark-toggle');
+  darkMode = !darkMode;
+  t.classList.toggle('on', darkMode);
+  if (!darkMode) {
+    document.documentElement.style.setProperty('--bg', '#f5f3ee');
+    document.documentElement.style.setProperty('--surface', '#ece9e2');
+    document.documentElement.style.setProperty('--surface2', '#e4e1da');
+    document.documentElement.style.setProperty('--surface3', '#dbd8d0');
+    document.documentElement.style.setProperty('--border', '#d0cdc5');
+    document.documentElement.style.setProperty('--border2', '#c0bdb5');
+    document.documentElement.style.setProperty('--text', '#1a1916');
+    document.documentElement.style.setProperty('--text2', '#4a4843');
+    document.documentElement.style.setProperty('--text3', '#8a8780');
+  } else {
+    document.documentElement.style.setProperty('--bg', '#0a0a0b');
+    document.documentElement.style.setProperty('--surface', '#111114');
+    document.documentElement.style.setProperty('--surface2', '#18181c');
+    document.documentElement.style.setProperty('--surface3', '#1e1e24');
+    document.documentElement.style.setProperty('--border', '#2a2a32');
+    document.documentElement.style.setProperty('--border2', '#363640');
+    document.documentElement.style.setProperty('--text', '#e8e6e0');
+    document.documentElement.style.setProperty('--text2', '#9b9890');
+    document.documentElement.style.setProperty('--text3', '#5a5855');
+  }
+}
+
+function saveCustomPrompt() {
+  customPrompt = document.getElementById('custom-prompt').value;
+  localStorage.setItem('paul_custom_prompt', customPrompt);
+  const btn = document.querySelector('.save-btn');
+  btn.textContent = 'Saved ✓';
+  setTimeout(() => btn.textContent = 'Save Prompt', 2000);
+}
+
+function deleteHistory() {
+  if (confirm('Are you sure you want to delete all conversation history? This cannot be undone.')) {
+    conversations = [];
+    currentMessages = [];
+    localStorage.removeItem('paul_conversations');
+    renderHistory();
+    document.getElementById('messages').innerHTML =
+      '<div style="text-align:center;padding:40px;color:var(--text3);font-family:Cormorant Garamond,serif;font-style:italic;font-size:16px">History cleared. Every day is a new beginning.</div>';
+  }
+}
+
+// Init
+if (customPrompt) document.getElementById('custom-prompt').value = customPrompt;
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// Close sidebar when a nav item is clicked on mobile
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('open');
+    }
+  });
+});
+</script>
+</body>
+</html>
